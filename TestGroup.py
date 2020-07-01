@@ -41,8 +41,6 @@ class TestGroup(unittest.TestCase):
 
     def test_has_inverses_false(self):
         G = Group([0, 2, 3], lambda x, y: (x+y)%4)
-        for a in G.set:
-            print(G.inverse(a))
         self.assertFalse(G.has_inverses())
 
     def test_group(self):
@@ -87,6 +85,10 @@ class TestGroup(unittest.TestCase):
         G = self.create_group_additive()
         self.assertTrue(G.inverse(3) == 1)
 
+    def test_inverse_three_false(self):
+        G = Group([0, 2, 3], lambda x, y: (x+y)%4)
+        self.assertFalse(G.inverse(3) == 0)
+
     def test_identity_additive(self):
         G = self.create_group_additive()
         self.assertTrue(G.identity() == 0)
@@ -102,7 +104,8 @@ class TestGroup(unittest.TestCase):
         H_1 = Group([0], lambda x, y: (x+y)%4)
         H_2 = Group([0, 2], lambda x, y: (x+y)%4)
         subgroups = [H_1, H_2]
-        groups = G.subgroups()
+        for g in G.subgroups():
+            print(g.set)
         self.assertTrue(G.subgroups() == subgroups)
 
 if __name__ == '__main__':

@@ -67,7 +67,7 @@ class Group:
     def has_inverses(self) -> int:
         """returns 1 if group has inverses, 0 otherwise"""
 
-        if(self.has_identity):
+        if(self.has_identity()):
             identity = self.identity()
 
             for a in self.set:
@@ -76,17 +76,15 @@ class Group:
                     ab = self.func(a, b)
                     if(ab == identity):
                         has_inverse = 1
-                if(has_inverse):
-                    return 1
-                else:
+                if(not has_inverse):
                     return 0
-        return 0
+        return 1
 
 
     def inverse(self, elem):
         """Document this later"""
         
-        if(self.has_identity()):
+        if(self.has_inverses()):
             identity = self.identity()
             if(elem == identity):
                 return identity
@@ -95,23 +93,18 @@ class Group:
                     if(self.func(elem, a) == identity):
                         return a
             
-        return False
 
 
     def is_group(self):
         """checks if the set is a group, if true returns 1, otherwise 0"""
 
         if(not self.is_closed()):
-            print('is not closed')
             return 0
         if(not self.is_associative()):
-            print('is not associative')
             return 0
         if(not self.has_identity()):
-            print('no identity')
             return 0
         if(not self.has_inverses()):
-            print('no inverses')
             return 0
         
         return 1
@@ -156,22 +149,13 @@ class Group:
     def subgroups(self):
         subsets = self.subsets()
         subgroups = []
+        identity = self.identity()
         for subset in subsets:
             H = Group(subset, self.func)
             subgroups.append(H)
 
         for subgroup in subgroups:
-            if(not subgroup.is_associative()):
+            if(not subgroup.is_group()):
                 subgroups.remove(subgroup)
-                continue
-            if(not subgroup.is_closed()):
-                subgroups.remove(subgroup)
-                continue
-            if(not subgroup.has_identity()):
-                subgroups.remove(subgroup)
-                continue
-            if(not subgroup.has_inverses()):
-                subgroups.remove(subgroup)
-                continue
         return subgroups
         
