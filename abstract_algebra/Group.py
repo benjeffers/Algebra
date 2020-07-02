@@ -5,6 +5,7 @@ class Group:
     def __init__(self, set, func) -> None:
         self.set = set
         self.func = func
+        self.coset_generator = None
 
     def __eq__(self, other) -> bool:
         equal = True
@@ -23,6 +24,17 @@ class Group:
             if(self.func(a, a) != other.func(a, a)):
                 equal = False
         return (self.set != other.set or not equal)
+
+
+    def size(self) -> int:
+        """returns an int that is the length of the list"""
+
+        return len(self.set)
+
+    def append(self, elem) -> None:
+        """appends the element to the set and returns nothing"""
+
+        self.set.append(elem)
 
     def is_associative(self) -> int:
         """returns 1 is group is asociative, 0 otherwise"""
@@ -213,7 +225,9 @@ class Group:
             for x in H.set:
                 coset.append(self.func(a, x))
 
-            return Group(coset, self.func)
+            aH = Group(coset, self.func)
+            aH.coset_generator = a
+            return aH
 
     
     def right_coset(self, H, a):
@@ -226,7 +240,9 @@ class Group:
             for x in H.set:
                 coset.append(self.func(x, a))
 
-            return Group(coset, self.func)
+            Ha = Group(coset, self.func)
+            Ha.coset_generator = a
+            return Ha
 
 
     def is_normal(self, H) -> int:
@@ -300,7 +316,11 @@ class Group:
 
         return generators
 
-    def pairs(self, H):
+    def pairs(self, H) -> list:
+        """takes in another group and returns all the pairs formed by the two groups, 
+            returns all the pairs in a list
+        """
+
         pairs = []
         for a in self.set:
             for b in H.set:
@@ -309,8 +329,13 @@ class Group:
         return pairs
 
     def external_direct_product(self, H):
+        """Given two groups it returns the external direct product"""
+
         pairs = self.pairs(H)
         function = lambda x, y: (self.func(x[0], y[0]), H.func(x[1], y[1]))
         return Group(pairs, function)
+
+    
+
 
     
