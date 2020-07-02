@@ -289,3 +289,28 @@ class Group:
             if(g == self):
                 return 1
         return 0
+
+    def get_generators(self) -> list:
+        """gets the generators of the group and returns them as a list"""
+       
+        generators = []
+        for elem in self.set:
+            if(self.group_generated_by(elem) == self):
+                generators.append(elem)
+
+        return generators
+
+    def pairs(self, H):
+        pairs = []
+        for a in self.set:
+            for b in H.set:
+                pairs.append((a, b))
+
+        return pairs
+
+    def external_direct_product(self, H):
+        pairs = self.pairs(H)
+        function = lambda x, y: (self.func(x[0], y[0]), H.func(x[1], y[1]))
+        return Group(pairs, function)
+
+    

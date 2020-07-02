@@ -184,6 +184,17 @@ class TestGroup(unittest.TestCase):
     def test_is_cylic_false(self):
         G = self.create_group_multiplicative()
         self.assertFalse(G.is_cylic())
+
+    def test_direct_product(self):
+        G = Group([0, 1], lambda x, y: (x + y)%2)
+        H = Group([0, 1], lambda x, y: (x + y)%2)
+        GH = Group([(0, 0), (0, 1), (1, 0), (1, 1)], lambda x, y: ((x[0] + y[0])%2, (x[1] + y[1])%2))
+        self.assertTrue(G.external_direct_product(H) == GH)
+
+    def test_generators(self):
+        G = self.create_group_additive()
+        gens = [1, 3]
+        self.assertTrue(G.get_generators() == gens)
         
 
 if __name__ == '__main__':
