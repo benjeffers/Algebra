@@ -335,6 +335,16 @@ class Group:
         function = lambda x, y: (self.func(x[0], y[0]), H.func(x[1], y[1]))
         return Group(pairs, function)
 
+    def is_homomorphic(self, H, homomorphism):
+        for a in self.set:
+            for b in H.set:
+                ab = homomorphism(self.func(a, b))
+                a_b = H.func(homomorphism(a), homomorphism(b))
+                if(ab != a_b):
+                    return 0
+                    
+        return 1
+
     
 
 
