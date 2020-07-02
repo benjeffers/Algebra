@@ -196,7 +196,6 @@ class TestGroup(unittest.TestCase):
         gens = [1, 3]
         self.assertTrue(G.get_generators() == gens)
 
-    
         
 
 if __name__ == '__main__':

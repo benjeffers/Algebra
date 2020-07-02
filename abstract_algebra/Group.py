@@ -346,6 +346,11 @@ class Group:
         return 1
 
     
-
+    def cayley_table(self):
+        for a in self.set:
+            for b in self.set:
+                c = self.func(a, b)
+                print(c, end=" ")
+            print()
 
     
